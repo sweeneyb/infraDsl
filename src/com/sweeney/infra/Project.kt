@@ -35,20 +35,31 @@ fun Cluster.namespaces( vararg toAdd: String) {
     namespaces.addAll(toAdd)
 }
 
-fun Database.named(name: String): Database {
-    return Database(name)
+fun Database.named(name: String) {
+    this.apply { id = name }
+}
+
+fun Database.users(name: String) {
+    this.apply { username = name }
+}
+
+fun Project.kubernetes( block: Project.() -> Unit) {
+    this.apply(block)
 }
 
 fun main(args: Array<String>) {
     val proj = project {
         withDatabase {
             named (" foo")
+            users ( "user1 ")
         }
         withDatabase{
             named ( "bar ")
         }
-        inCluster ("clusterName"){
-                namespaces("ns1", "ns2")
+        kubernetes {
+           inCluster ("clusterName"){
+                    namespaces("ns1", "ns2")
+                }
             }
         }
 
