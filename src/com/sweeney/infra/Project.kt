@@ -4,7 +4,12 @@ package com.sweeney.infra
 data class Cluster(var clusterName: String? = null, var namespaces: MutableList<String> = mutableListOf())
 //data class Cluster(var )
 data class Database(var id: String? = null, var username: String? = null, var password: String? = null)
-data class Project(var name: String? = null, var databases: MutableList<Database> = mutableListOf(), var kubernetes: HashMap<String, Cluster> = HashMap())
+data class Project(var name: String? = null,
+                   var databases: MutableList<Database> = mutableListOf(),
+                   var kubernetes: HashMap<String, Cluster> = HashMap(),
+                    var iam: MutableList<IAM> = mutableListOf())
+data class IAM(var account: String? = null, var roles: MutableList<String> = mutableListOf())
+
 
 fun project(block: Project.() -> Unit): Project {
     val p = Project()
@@ -49,6 +54,7 @@ fun Project.kubernetes( block: Project.() -> Unit) {
 
 fun main(args: Array<String>) {
     val proj = project {
+        
         withDatabase {
             named (" foo")
             users ( "user1 ")
@@ -61,7 +67,9 @@ fun main(args: Array<String>) {
                     namespaces("ns1", "ns2")
                 }
             }
+
         }
+
 
 
 
