@@ -1,4 +1,4 @@
-package com.sweeney.infra
+package com.sweeneyb.infra
 
 
 data class Cluster(var clusterName: String? = null, var namespaces: MutableList<String> = mutableListOf())
@@ -33,7 +33,7 @@ fun Project.inCluster ( clusterName: String, block: Cluster.() -> Unit) {
         cluster = Cluster()
         kubernetes.put(clusterName, cluster)
     }
-     cluster.apply { block }
+     cluster.apply ( block )
 }
 
 fun Cluster.namespaces( vararg toAdd: String) {
@@ -74,4 +74,5 @@ fun main(args: Array<String>) {
 
 
     System.out.println(proj.databases.size)
+    println(proj.kubernetes.get("clusterName"))
 }
